@@ -5,12 +5,19 @@ import json
 
 from datetime import datetime
 
-# _data = requests.get("https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=cad&days=90&interval=daily").json()
-# with open('_data.json', 'w+') as f:
-#     json.dump(_data, f)
-
 
 def extract_data(currency, num_days):
+    """
+    Extract data from coingecko API
+
+    Params:
+        currency
+        num_days
+
+    Return:
+        Json response from coinGecko API
+    """
+
     if currency is None:
         raise APIException("Currency parameter is undefined")
     if num_days is None:
@@ -29,6 +36,14 @@ def extract_data(currency, num_days):
 
 
 def transform_load_data(_data):
+    """
+    Extract price data from _data
+
+    Params:
+        data: JSON object
+    Return:
+        df: pd.Dataframe()
+    """
     df = pd.DataFrame(
         data=(price_elem[1] for price_elem in _data['prices'])
     )
@@ -71,4 +86,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
